@@ -1,0 +1,347 @@
+<aura:component controller="AccountSearchController" implements="force:appHostable">
+    <!--### declared attributes ###-->
+    <aura:attribute name="searchResult" type="List" description="use for store and display account list return from server"/>
+    <aura:attribute name="nameKanaValue" type="String" description=""/>
+    <aura:attribute name="nameKanjiValue" type="String" description=""/>
+    <aura:attribute name="axValue" type="String" description=""/>
+    <aura:attribute name="phoneValue" type="String" description=""/>
+    <aura:attribute name="birthdayValue" type="String" description=""/>
+    <aura:attribute name="addressValue" type="String" description=""/>
+    <aura:attribute name="memberFlagValue" type="boolean" description="" default="true"/>
+    <aura:attribute name="notMemberFlagValue" type="boolean" description="" default="true"/>
+    <aura:attribute name="isLoading" type="boolean" default="false"/>
+    <aura:attribute name="isLoaded" type="boolean" default="false"/>
+    <aura:attribute name="isOpenedSearchPanel" type="boolean" default="true"/>
+    <aura:attribute name="numberOfRecord" type="integer" default="0" description="use for display Number of records"/>
+    <aura:attribute name="rowNumber" type="integer" default="1" description=""/>
+    <aura:attribute name="no1xValue" type="String" description=""/>
+    <aura:attribute name="no2xValue" type="String" description=""/>
+    <aura:attribute name="no3xValue" type="String" description=""/>
+    <aura:attribute name="no4xValue" type="String" description=""/>
+    <aura:attribute name="targetDayValue" type="String" description=""/>
+    <aura:attribute name="emailValue" type="String" description=""/>
+    <aura:attribute name="mTGIdValue" type="String" description=""/>
+    <aura:attribute name="mycolumns" type="List"/>    
+    <aura:attribute name="sortedBy" type="String"/>
+    <aura:attribute name="sortedDirection" type="String"/>
+    <aura:attribute name="defaultSortDirection" type="String"/>
+    <aura:attribute name="isSorting" type="boolean" default="false"/>
+    <aura:attribute name="keyErrorMsg" type="List" description="表示メッセージ" />
+    <aura:attribute name="propertyErrorMsg" type="List" description="表示メッセージ" />
+    <aura:attribute name="cmpView" type="Object" description="画面表示情報のクラス" />
+    <aura:attribute name="searchResultMsg" type="String" description="表示メッセージ" />
+    <aura:attribute name="popFlg" type="boolean" default="false" description="ポップアップ判定用フラグ" />
+    
+    <aura:handler name="init" action="{!c.initLabel}" value="{!this}" />
+    <div class="slds-m-around--middle">
+        <div class="slds-p-top--large" style="padding-top: 0px;">
+            <div aria-labelledby="newCampaingForm">
+                <fieldset class="slds-box slds-theme--default slds-container">
+                    <aura:if isTrue="{!v.isOpenedSearchPanel}">
+                    <h1 class="slds-page-header__title slds-truncate" title="顧客キー項目検索">顧客キー項目検索</h1>
+                        <aura:if isTrue="{!not(empty(v.keyErrorMsg))}">
+                            <div class="slds-text-color--error">
+                                <ul class="errorsList">
+                                    <aura:iteration items="{!v.keyErrorMsg}" var="waritem">
+                                        <li>{!waritem}</li>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                        </aura:if>
+
+                        <form class="slds-form--inline">
+                            <div class="tgcls-div-border">
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-box slds-box_x-small">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-6 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>ガスメーター設置場所番号(1x)</span></label>
+                                                </div>
+                                                <div class="slds-size_1-of-6 input-label-hidden">
+                                                    <lightning:input type="tel" name="no1xValue" aura:id="no1xId" value="{!v.no1xValue}" placeholder="例)1234-567-8901" label="" maxlength="14" />
+                                                </div>
+                                                <div class="slds-size_1-of-6 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>お客さま登録番号(3x)</span></label>
+                                                </div>
+                                                <div class="slds-size_1-of-6 input-label-hidden">
+                                                    <lightning:input type="tel" name="no3xValue" aura:id="no3xId" value="{!v.no3xValue}" placeholder="例)3456-789-0123" label="" maxlength="14" />
+                                                </div>
+                                                <div class="slds-size_1-of-6 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>ガス使用契約番号(ガス4x)</span></label>
+                                                </div>
+                                                <div class="slds-size_1-of-6 input-label-hidden">
+                                                    <lightning:input type="tel" name="no4xValue" aura:id="no4xId" value="{!v.no4xValue}" placeholder="例)4567-890-1234" label="" maxlength="14" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row" style="{!(v.cmpView.areaViewMap.key1)}">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="no1xValueError1" class="tgcls-hide" value="数値またはハイフン(-)のみ入力可" /></p>
+                                                        <p><lightning:formattedText aura:id="no1xValueError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：11 or 13)" /></p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="no3xValueError1" class="tgcls-hide" value="数値またはハイフン(-)のみ入力可" /></p>
+                                                        <p><lightning:formattedText aura:id="no3xValueError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：11 or 13)" /></p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="no4xValueError1" class="tgcls-hide" value="数値またはハイフン(-)のみ入力可" /></p>
+                                                        <p><lightning:formattedText aura:id="no4xValueError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：11 or 13)" /></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_2-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>統合顧客ID(Ax)</span></label>
+                                                </div>
+                                                <div class="slds-size_2-of-12 input-label-hidden">
+                                                    <lightning:input type="tel" name="axValue" aura:id="axId" value="{!v.axValue}" placeholder="例)A0000000001" label="" maxlength="11" />
+                                                </div>
+                                                <div class="slds-size_2-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>mTG会員ID</span></label>
+                                                </div>
+                                                <div class="slds-size_2-of-12 input-label-hidden">
+                                                    <lightning:input type="tel" name="mTGIdValue" aura:id="mTGIdId" value="{!v.mTGIdValue}" placeholder="例)00000000000000" label="" maxlength="20" />
+                                                </div>
+                                                <div class="slds-size_4-of-12 slds-m-left_x-small slds-text-align_right">
+                                                    <lightning:button label="クリア" onclick="{!c.keyClear}" class="slds-button slds-m-right_x-small clear-backcolor"/>
+                                                    <lightning:button label="検索" onclick="{!c.keySearch}" class="slds-button slds-button--brand slds-m-right_x-small"/>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row" style="{!(v.cmpView.areaViewMap.key2)}">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="axValueError1" class="tgcls-hide" value="入力形式が不正 (入力可能な形式：先頭「A」、以降半角数値10桁)" /></p>
+                                                        <p><lightning:formattedText aura:id="axValueError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：11)" /></p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="mTGIdValueError1" class="tgcls-hide" value="数値のみ入力可" /></p>
+                                                        <p><lightning:formattedText aura:id="mTGIdValueError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：20)" /></p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isOpenedSearchPanel}">
+                    <h1 class="slds-page-header__title slds-truncate" title="顧客属性項目検索">顧客属性項目検索</h1>
+                        <aura:if isTrue="{!not(empty(v.propertyErrorMsg))}">
+                            <div class="slds-text-color--error">
+                                <ul class="errorsList">
+                                    <aura:iteration items="{!v.propertyErrorMsg}" var="waritem">
+                                        <li>{!waritem}</li>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                        </aura:if>
+                        <form class="slds-form--inline">
+                            <div class="tgcls-div-border">
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-box slds-box_x-small">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>おなまえ(カナ)</span></label>
+                                                </div>
+                                                <div class="slds-size_2-of-12 slds-m-left_x-small input-label-hidden">
+                                                    <lightning:input name="nameKanaValue" aura:id="nameKanaId" value="{!v.nameKanaValue}" placeholder="例)トウキョウタロウ" label="" maxlength="{!v.cmpView.apiLengthMap.name}" />
+                                                </div>
+                                                <div class="slds-size_1-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-m-left_x-small slds-form-element__legend"><span>おなまえ(漢字・英字)</span></label>
+                                                </div>
+                                                <div class="slds-size_2-of-12 input-label-hidden">
+                                                    <lightning:input name="nameKanjiValue" aura:id="nameKanjiId" value="{!v.nameKanjiValue}" placeholder="例)東京太郎" label="" maxlength="{!v.cmpView.apiLengthMap.nameofkanji__c}" />
+                                                </div>
+                                                <div class="slds-size_1-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>電話番号</span></label>
+                                                </div>
+                                                <div class="slds-size_2-of-12 input-label-hidden">
+                                                    <lightning:input type="tel" label="" name="phoneValue" value="{!v.phoneValue}" placeholder="例)03-0000-0000" aura:id="phoneId" maxlength="{!v.cmpView.apiLengthMap.phone}" />
+                                                </div>
+                                                <div class="slds-size_1-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>生年月日</span></label>
+                                                </div>
+                                                <div class="slds-size_2-of-12 input-label-hidden">
+                                                    <lightning:input type="tel" label="" name="birthdayValue" value="{!v.birthdayValue}" placeholder="例)20180101" aura:id="birthdayId" maxlength="8"/>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row" style="{!(v.cmpView.areaViewMap.key3)}">
+                                                <div class="slds-size_1-of-4">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="nameKanaValueError1" class="tgcls-hide" value="全角カナのみ入力可" /></p>
+                                                        <p><lightning:formattedText aura:id="nameKanaValueError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：80)" /></p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-4">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="nameKanjiValueError" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：135)" /></p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-4 slds-m-left_x-small">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="phoneError1" class="tgcls-hide" value="数値またはハイフン(-)のみ入力可" /></p>
+                                                        <p><lightning:formattedText aura:id="phoneError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：40)" /></p>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-4">
+                                                    <div class="slds-form-element__control">
+                                                        <p><lightning:formattedText aura:id="birthdayValueError1" class="tgcls-hide" value="入力形式が不正 (入力可能な形式：YYYYMMDD)" /></p>
+                                                        <p><lightning:formattedText aura:id="birthdayValueError2" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：8)" /></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-form-element__legend"><span>メールアドレス</span></label>
+                                                </div>
+                                                <div class="slds-size_2-of-12 slds-m-left_x-small input-label-hidden">
+                                                    <!--<ui:inputEmail aura:id="emailId" label="" value="{!v.emailValue}" placeholder="例)sample@tokyo-gas.co.jp" maxlength="{!v.cmpView.apiLengthMap.email1__c}"/>-->
+                                                    <lightning:input type="email" aura:id="emailId" label="" value="{!v.emailValue}" placeholder="例)sample@tokyo-gas.co.jp"
+                                                                     maxlength="10"
+                                                                     messageWhenTypeMismatch="入力形式が不正"
+                                                                     />
+                                                </div>
+                                                <div class="slds-size_1-of-12 text-padding-top">
+                                                    <label class="slds-form-element__label slds-m-left_x-small slds-form-element__legend"><span>住所</span></label>
+                                                </div>
+                                                <div class="slds-size_3-of-12 input-label-hidden">
+                                                        <div class="slds-form-element__control slds-size_1-of-1">
+                                                            <lightning:input name="addressValue" aura:id="addressId" style="" class="" value="{!v.addressValue}" placeholder="例)東京都港区海岸1-5-20" label=""
+                                                                            minlength="7"
+                                                                            maxlength="10"
+                                                                             messageWhenTooLong="入力桁：7～255)min"
+                                                                             messageWhenTooShort="入力桁～255)max"
+                                                                             />
+                                                            <!--<ui:inputText aura:id="addressId" label="" value="{!v.addressValue}" placeholder="例)東京都港区海岸1-5-20" class="slds-size_1-of-1" blur="{!c.clearRedColor}"/>-->
+                                                        </div>
+                                                </div>
+                                                <div class="slds-size_5-of-12">
+                                                    <div class="slds-grid slds-m-left_x-small slds-float_right">
+                                                        <div class="slds-grid text-padding-top">
+                                                            <label class="slds-form-element__label slds-m-right_x-small slds-form-element__legend">統合顧客</label>
+                                                            <ui:inputCheckbox aura:id="memberFlagId" label="" value="{!v.memberFlagValue}" class="slds-m-right_x-small" />
+                                                            <label class="slds-form-element__label slds-m-right_x-small slds-form-element__legend">未統合顧客</label>
+                                                            <ui:inputCheckbox aura:id="notMemberFlagId" label="" value="{!v.notMemberFlagValue}" class="slds-m-right_x-small"/>
+                                                        </div>
+                                                        <lightning:button label="クリア" onclick="{!c.propertyClear}" class="slds-button slds-m-right_x-small clear-backcolor"/>
+                                                        <lightning:button label="検索" onclick="{!c.propertySearch}" class="slds-button slds-button--brand slds-m-right_x-small"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           <!-- <div class="slds-form-element__row" style="{!(v.cmpView.areaViewMap.key4)}">
+                                                <div class="slds-size_3-of-12">
+                                                        <div class="slds-form-element__control">
+                                                            <p><lightning:formattedText aura:id="emailValueError" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：80)" /></p>    
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_4-of-12 slds-m-left_x-small">
+                                                        <div class="slds-form-element__control">
+                                                            <p><lightning:formattedText aura:id="addressValueError" class="tgcls-hide" value="入力桁数が不正 (入力可能桁数：7～255)" /></p>
+                                                        </div>
+                                                </div>
+                                                <div class="slds-size_5-of-12">
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <aura:if isTrue="{!v.numberOfRecord > 0}">
+                            <div style="text-align: center;">
+                                <p class="slds-text-body--small">
+                                    <a onclick="{!c.closeSearchPanel}">▲検索パネルを閉じる</a>
+                                </p>
+                            </div>
+                        </aura:if>
+                        <aura:set attribute="else">
+                            <div style="text-align: center;">
+                                <p class="slds-text-body--small">
+                                    <a onclick="{!c.openSearchPanel}">▼検索パネルを開く</a>
+                                </p>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </fieldset>
+            </div>
+        </div>
+        <aura:if isTrue="{!v.isLoading}">
+            <div class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader" role="banner" style="margin-top: 20px;">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__body slds-align-middle">
+                                <h1 class="slds-page-header__title slds-truncate" title="顧客情報検索結果">顧客情報検索結果</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aura:if isTrue="{!not(v.isLoaded)}">
+                    <div class="tgcls-loading-holder-wrap">
+                        <div class="tgcls-loading-holder slds-align-bottom">
+                            <lightning:spinner alternativeText="Loading" size="middle" />
+                        </div>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-align-bottom">
+                                <p class="slds-text-body--large">
+                                    <div>
+                                        <aura:if isTrue="{!v.numberOfRecord > 0}">
+                                            <span class="countSortedByFilteredBy">{!v.numberOfRecord} 件 が選択されました</span>
+                                            <aura:set attribute="else">
+                                                <span class="slds-text-color--error">{!v.searchResultMsg}</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{!v.numberOfRecord > 0}">
+                <lightning:datatable data="{! v.searchResult }"
+                                     columns="{! v.mycolumns }"
+                                     keyField="Id"
+                                     showRowNumberColumn="true"
+                                     sortedBy="{! v.sortedBy }"
+                                     sortedDirection="{! v.sortedDirection }"
+                                     defaultSortDirection="{! v.defaultSortDirection }"
+                                     onsort="{! c.updateColumnSorting }"
+                                     hideCheckboxColumn="true"/>
+            </aura:if>
+            <aura:if isTrue="{! v.isSorting }">
+                <lightning:spinner alternativeText="Loading"/>
+            </aura:if>
+        </aura:if>
+    </div>
+    <aura:if isTrue="{!v.popFlg}">
+        <div role="dialog" tabindex="-1" aria-labelledby="popHeader" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around--medium slds-grid">
+                    <div>
+                        <ul class="slds-m-left_medium">
+                            {!$Label.c.SYSTEM_ERROR_MESSAGE}
+                        </ul>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning:button name="cancel" label="キャンセル" onclick="{!c.popClose}" class="slds-m-right_x-small"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,21 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:actionOverride,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global">
+    <aura:attribute name="isOpen" type="boolean" default="true"/>
+    <aura:if isTrue="{!v.isOpen}">
+        <div>
+            <header class="slds-modal__header header-view">
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">名義人新規作成</h2>
+            </header>
+            
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="slds-form-element__row row-height-100">
+                    新規顧客を作成します。よろしいでしょうか。 
+                </div>
+            </div>
+            <div class="slds-text-align_right slds-progress-bar slds-progress-bar_x-small " aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" role="progressbar"></div>
+            
+            <div class="slds-text-align_right slds-p-top_x-small">
+                <lightning:button name="cancel" label="次へ" onclick="{!c.createAccount}" class="slds-m-right_x-small slds-button slds-button_brand"/>
+            </div>          
+        </div>
+    </aura:if>
+</aura:component>

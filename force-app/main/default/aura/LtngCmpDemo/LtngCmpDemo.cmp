@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<aura:attribute name="tableColumn" type="List" default="[]" />
+	<aura:attribute name="tableData" type="List" default="[]" />
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <lightning:datatable columns="{! v.tableColumn }" data="{! v.tableData }" keyField="Name" onrowaction="{! c.handleRowAction }"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+   <!-- <lightning:button label="Get Opened Tab Info" onclick="{! c.getOpenedTabInfo }" />-->
+</aura:component>

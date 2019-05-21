@@ -1,0 +1,112 @@
+<aura:component implements="lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global" controller="KaisyaKanriCtrl">
+    <aura:attribute name="recordInfo" type="KAISYA_KANRI__c" default="{'sobjectType': 'KAISYA_KANRI__c'} "/>
+    <aura:attribute name="cmpView" type="Object" description="画面表示情報のクラス" />
+    <aura:attribute name="errorMsg" type="List" description="表示メッセージ" />
+    <aura:attribute name="successAction" type="Integer" default="0" description="作成:0・保存:1" />
+    
+    <aura:handler name="init" action="{!c.initHandler}" value="{!this}" />
+    <form>
+        <div class="modal-body scrollable slds-modal__content slds-p-around--medium">
+            <aura:if isTrue="{!not(empty(v.errorMsg))}">
+                <div class="pageLevelErrors">
+                    <div class="desktop forcePageError">
+                        <div class="genericNotification">
+                            <span class="genericError">このページのエラーを確認してください。</span>
+                        </div>
+                        <ul class="errorsList">
+                            <aura:iteration items="{!v.errorMsg}" var="waritem">
+                                <li>{!waritem}</li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                </div>
+            </aura:if>
+            <!-- ヘッダ -->
+            <div class=" slds-section slds-is-open">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">基本情報</span>
+                </h3>
+                <div class="slds-section__content section__content slds-m-right_x-small">
+                    <div class="slds-form slds-form_compound">
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row">
+                                <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-left_x-small">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="必須">*</abbr>
+                                            <span>会社名</span>
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <force:inputField aura:id="KAISYAMEI__c" value="{!v.recordInfo.KAISYAMEI__c}" required="true" class="input-text-height"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element__row">
+                                <div class="setWidth">
+                                    <div  class="slds-m-left_x-small">
+                                        <label class="slds-form-element__label"><span>会社コード</span></label>
+                                        <div class="slds-form-element__control">
+                                            <force:inputField aura:id="KAISYA_KODO__c" value="{!v.recordInfo.KAISYA_KODO__c}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setWidth">
+                                    <div  class="slds-m-left_x-small">
+                                        <label class="slds-form-element__label"><span>資本金</span></label>
+                                        <div class="slds-form-element__control">
+                                            <force:inputField aura:id="SHHNKN__c" value="{!v.recordInfo.SHHNKN__c}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element__row">
+                                <div class="setWidth">
+                                    <div  class="slds-m-left_x-small">
+                                        <label class="slds-form-element__label"><span>設立日</span></label>
+                                        <div class="slds-form-element__control">
+                                            <force:inputField aura:id="SETURITU__c" value="{!v.recordInfo.SETURITU__c}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element__row">
+                                <div class="slds-size_1-of-2">
+                                    <div class="slds-m-left_x-small">
+                                        <label class="slds-form-element__label"><span>業種</span></label>
+                                        <div class="slds-form-element__control">
+                                            <force:inputField aura:id="GYOSYU__c" value="{!v.recordInfo.GYOSYU__c}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element__row">
+                                <div class="setWidth">
+                                    <div class="slds-form-element slds-m-left_x-small">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="必須">*</abbr>
+                                            <span>社長名義</span>
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <force:inputField aura:id="SYATYO_MEIGI__c" value="{!v.recordInfo.SYATYO_MEIGI__c}" required="true" class="input-text-height"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 保存するボタン -->
+            <div class="slds-form-element slds-m-right_x-small">
+                <div class=" slds-text-align_right">
+                    <lightning:button label="キャンセル" onclick="{!c.cancelHandler}"  variant="neutral" class="slds-m-right_x-small"/>
+                    <lightning:button label="保存 ＆ 新規" onclick="{!c.checkHandler}" variant="neutral" class="slds-m-right_x-small" aura:id="saveAndNew"/>
+                    <lightning:button label="保存" onclick="{!c.checkHandler}"  variant="brand" class="slds-m-right_x-small" aura:id="save"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+</aura:component>

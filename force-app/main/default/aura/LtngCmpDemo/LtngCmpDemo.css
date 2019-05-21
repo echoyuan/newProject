@@ -1,0 +1,19 @@
+.THIS .text-icon-acc {
+    text-align:center; 
+    background-color: rgb(238, 63, 63); 
+    color:rgb(255, 255, 255);
+    border-radius: 1.45rem;
+    margin: 6px;
+}
+
+.THIS .text-icon-noacc {
+    text-align:center; 
+    background-color: rgb(6, 189, 108); 
+    color:rgb(255, 255, 255);
+    border-radius: 1.45rem;
+    margin: 6px;
+}
+/*.THIS .btn_next button{
+    border:0px;
+    text-decoration: underline;
+}*/

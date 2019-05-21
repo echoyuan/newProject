@@ -1,0 +1,38 @@
+.THIS .gray-backcolor-row
+{
+	background-color:#cccccc;
+}
+
+.THIS .tgcls-hide {
+    display: none;
+}
+
+.THIS .checkbox-position
+{
+	position: absolute;
+    margin-top: 13px;
+    margin-left: 120px;
+    z-index: 1;
+}
+.THIS .div-label
+{
+   margin-left: 150px;
+   position: absolute;
+   margin-top: 11px;
+}
+.THIS .div-button
+{
+   margin-left: 39px;
+}
+.THIS .div-title
+{
+   margin-top: 6px;
+}
+.THIS .default-check-status
+{
+   border-color: rgb(21, 137, 238);
+}
+.THIS .error-margin-left
+{
+   margin-left: 30px;;
+}

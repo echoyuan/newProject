@@ -1,0 +1,12 @@
+.THIS .gray-backcolor-row
+{
+	background-color:#cccccc;
+}
+
+.THIS .checkbox-position
+{
+	position: absolute;
+    margin-top: 13px;
+    margin-left: 120px;
+    z-index: 999
+}

@@ -1,0 +1,3 @@
+<aura:component implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes" extends="c:abstractContractList" access="global" controller="ContractListFromChangeNameController">
+    <aura:handler name="init" action="{!c.initSelect}" value="{!this}" />
+</aura:component>

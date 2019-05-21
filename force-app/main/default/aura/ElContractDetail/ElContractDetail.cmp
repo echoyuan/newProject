@@ -1,0 +1,1374 @@
+<aura:component implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="contractMessage" type="String" default="契約情報取得中..."/>
+    <aura:attribute name="errorFlg" type="boolean" default="false"  />
+    <aura:attribute name="elContract" type="Object" />
+    <aura:attribute name="serviceType" type="String" />
+    <aura:attribute name="serviceKey" type="String" />
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <article class="slds-card">
+        <aura:if isTrue="{!v.errorFlg}">
+            <div class="slds-text-color--error" data-aura-rendered-by="2867:0" style="margin-left: 30px;">
+                <ul class="errorsList" data-aura-rendered-by="2868:0">
+                    <li data-aura-rendered-by="2870:0">処理が異常終了しました。システム管理者に問い合わせてください。</li>
+                </ul>
+            </div>
+        </aura:if>							
+    </article>    
+    <div>
+        <div class="slds-m-around--middle">
+            <aura:if isTrue="{! not(empty(v.elContract))}">
+                <div class="slds-grid full forcePageBlockSectionRow">
+                    <h3>
+                        <ui:outputText value="{!v.contractMessage}" />
+                    </h3>
+                </div>
+                <aura:set attribute="else">
+                            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-id-01" aria-describedby="modal-content-id-01" aria-modal="true">
+                <div class="slds-modal__container" style="width: 70%; padding-top: 8.0rem; padding-bottom: 2.0rem;">
+                    <header class="slds-modal__header" style="padding-top: 8px;padding-bottom: 8px;">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">電力</h2>
+                        <img src="https://tgcrm-poc--c.ap5.visual.force.com/resource/contactHeaderView" class="icon" alt="" title=""/>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <aura:if isTrue="{! not(empty(v.elContract))}">
+                            <div class="slds-grid full forcePageBlockSectionRow">
+                                <h3>
+                                    <ui:outputText value="{!v.contractMessage}" />
+                                </h3>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class=" slds-section slds-is-open">
+                                    <h3 class="slds-section__title slds-theme_shade">
+                                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">お客さま(設置先)情報</span>
+                                    </h3>
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    お客さま登録番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>  
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    お客さま番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_2-of-3">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    ガス使用契約番号(4(X))
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-3">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    電力使用契約番号(他シス4(X))
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.name}田中　太郎
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    カスタマ番号(8(X))
+                                                                </label>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.nameKana}タナカタロウ
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    電力契約番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.name}田中　太郎
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    供給地点特定番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.nameKana}タナカタロウ
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    お客さま名
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>  
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_2-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    お客さま名(カナ)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    店名・屋号等
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.name}田中　太郎
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    店名・屋号等(カナ)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.nameKana}タナカタロウ
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_4-of-4">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-4">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    住所
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_3-of-4">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.address}東京都港区海岸1-5-20
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    住所(建物名)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.postal}1330000
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    住所(棟番)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.phone}08011112222
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    住所(部屋番号)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.phone}08011112222
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    電話種別
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.paymentMethod}振込
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    電話種別(デコード)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.gasPriceContractType}一般契約
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    連絡先種別
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    有
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    連絡先種別(デコード)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    有
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    電話番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    1234-123-1245
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    確認状態
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    状態ok
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    確認状態(デコード)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    ok
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払方法
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    状態ok
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払方法(デコード)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    ok
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    基本検針日
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    状態okss
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    			<div class=" slds-section slds-is-open">
+                                    <h3 class="slds-section__title slds-theme_shade">
+                                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">電力契約情報</span>
+                                    </h3>
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    適用日
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>  
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    料金メニュー
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.name}田中　太郎
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    料金メニュー(デコード)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.nameKana}タナカタロウ
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    契約電流
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    契約容量
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    契約電力
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    契約電流xxxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    契約容量xxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    契約電力xxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class=" slds-section slds-is-open">
+                                    <h3 class="slds-section__title slds-theme_shade">
+                                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">最新料金メニュー情報</span>
+                                    </h3>
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    パック割適用区分
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>  
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    パック割適用区分
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>  
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    パック割適用開始日
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    {!v.gasContract.storeName}901
+                                                                </label>
+                                                            </div>
+                                                        </div>  
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-1">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    期間限定割引情報
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    期間限定割種別
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    期間限定割適用開始日
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    期間限定割適用終了日
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    期間限定割種別xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    期間限定割適用開始日xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    期間限定割適用終了日xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" slds-section slds-is-open">
+                                    <h3 class="slds-section__title slds-theme_shade">
+                                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">関連指図情報</span>
+                                    </h3>
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    指図番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    指図タイプ
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    ステータス
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    担当箇所
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    作業希望日
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    作業予定日
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    指図番号xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    指図タイプxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    ステータスxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    担当箇所xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    作業希望日xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-6">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-1">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    作業予定日xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" slds-section slds-is-open">
+                                    <h3 class="slds-section__title slds-theme_shade">
+                                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">支払者情報</span>
+                                    </h3>
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者お客さま名
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者お客さま名xxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_2-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-3">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者お客さま名(カナ)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_2-of-3">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者お客さま名(カナ)xxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者店名・屋号等
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_2-of-3">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-3">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者店名・屋号等(カナ)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_2-of-3">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者店名・屋号等(カナ)xxx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" slds-section slds-is-open">
+                                    <h3 class="slds-section__title slds-theme_shade">
+                                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">契約・支払情報</span>
+                                    </h3>
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    電力契約番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    電力契約番号xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者電力契約番号
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者契約タイプ(デコード)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者契約タイプ(デコード)xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者支払方法
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者支払方法xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者支払方法(デコード)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    支払者支払方法(デコード)xx
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" slds-section slds-is-open">
+                                    <h3 class="slds-section__title slds-theme_shade">
+                                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">その他(紐付け情報)</span>
+                                    </h3>
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row">
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    4x(ガス使用契約番号)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element slds-m-left_x-small">
+                                                                <label>
+                                                                    4x
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div class="slds-size_1-of-2">
+                                                                <div class="slds-form-element slds-m-left_x-small">
+                                                                    <label>
+                                                                        3x(域外ガスお客さま番号)
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-size_1-of-2">
+                                                                <div class="slds-form-element slds-m-left_x-small">
+                                                                    <label>
+                                                                        3x
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <lightning:button name="cancel" label="キャンセル" onclick="{!c.elPopClose}" class="slds-m-right_x-small"/>
+                    </div>
+                </div>
+            </section>
+                </aura:set>
+            </aura:if>
+        </div>
+    </div>    
+</aura:component>

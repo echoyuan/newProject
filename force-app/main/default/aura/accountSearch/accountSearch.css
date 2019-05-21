@@ -1,0 +1,63 @@
+.THIS .tgcls-hide {
+    display: none;
+}
+.THIS .tgcls-loading-holder-wrap {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.THIS .tgcls-loading-holder {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.THIS .show {
+    display:flex;
+    color:rgb(194, 57, 52);
+}
+
+.THIS .slds-form-element__label {
+    font-size: .70rem;
+}
+
+.THIS .text-padding-top {
+    padding-top: 6px;
+}
+
+.THIS .tgcls-ui-text-error {
+    border:2px solid rgb(194, 57, 52); 
+}
+
+.THIS .tgcls-div-border {
+    margin-left: .75rem; 
+    margin-right: .75rem; 
+    margin-top: .5rem;
+    margin-bottom: .75rem;
+}
+
+.THIS .text-icon-acc {
+    text-align:center; 
+    background-color: rgb(238, 63, 63); 
+    color:rgb(255, 255, 255);
+}
+
+.THIS .text-icon-noacc {
+    text-align:center; 
+    background-color: rgb(6, 189, 108); 
+    color:rgb(255, 255, 255);
+}
+
+.THIS .clear-backcolor {
+    background-color: rgb(243, 242, 242); 
+}
+.THIS .input-label-hidden .slds-form-element__label {
+      display : none;
+      visibility : hidden;
+}
+.THIS .slds-form-element__help {
+    color: rgb(194, 57, 52);
+    font-size: .8125rem;
+    margin-left : -113px;
+}

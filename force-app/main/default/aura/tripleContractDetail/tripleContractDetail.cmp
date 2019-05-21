@@ -1,0 +1,607 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    <div>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-id-01" aria-describedby="modal-content-id-01" aria-modal="true">
+            <div class="slds-modal__container" style="width: 70%; padding-top: 8.0rem; padding-bottom: 2.0rem;">
+                <header class="slds-modal__header" style="padding-top: 8px;padding-bottom: 8px;">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">トリプル割契約</h2>
+                    <img src="https://tgcrm-poc--c.ap5.visual.force.com/resource/contactHeaderView" class="icon " alt="" title=""/>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <aura:if isTrue="{! not(empty(v.gasContract))}">
+                        <div class="slds-grid full forcePageBlockSectionRow">
+                            <h3>
+                                <ui:outputText value="{!v.contractMessage}" />
+                            </h3>
+                        </div>
+                        <aura:set attribute="else">
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">システム情報</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                ID
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.customerNumber}10000092311
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                状態
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.customerNumber}確認中
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                申し込み受付日時
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.customerNumber}2008/12/18
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                ガスメータ設置場所番号(1x)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.customerNumber}10000092311
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">東京ガスご契約情報</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                ご契約名義
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.customerNumber}契約名義0001
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                ご契約名義（カナ）
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.customerNumber}ケイヤク001
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                郵便番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                〒1234-234-5678
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                お電話番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                1234-234-5678
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-1">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-4">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                住所
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_3-of-4">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.customerNumber}東京都港区海岸1-5-20
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">インターネット回線希望者情報</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_2-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_3-of-8">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                メールアドレス
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_5-of-8">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.designationDateTransfer}junxia.yuan@accenture.com
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                申し込み者関係情報
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.branchName}親子
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                お名前
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.branchName}田中　太郎
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                オナマエ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.branchName}タナカタロウ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                お電話番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.branchName}123-123-123
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                法人代表者名
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.branchName}田中　太郎
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">インターネット光回線</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                フレッツの利用状況
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.designationDateTransfer}利用可能
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                希望プロバイダ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.designationDateTransfer}ISP
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                現在プロバイダ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.designationDateTransfer}ISP
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">希望連絡日時</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                希望連絡日時
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.designationDateTransfer}2018/12/18
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">その他</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                プロバイダ顧客管理番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.designationDateTransfer}NO0000001
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                プロバイダメールアドレス
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContract.designationDateTransfer}privoder@xx.com
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                同時提案商材
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                商材xxx
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-1">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-4">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                特記事項
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_3-of-4">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                経験の浅い調査員でも、簡潔・明瞭な特記事項が記載できるよう作成しました。
+                                                                文例を参考に、審査会委員等に伝わりやすいよう、調査対象者の個別の状況を追記してください。
+                                                                調査票を作成する上で、不明な点や迷うことなどがありましたら、下記へお気軽にお問い合わせください。
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-1">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-4">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                受付メモ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_3-of-4">
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div class="slds-size_1-of-1">
+                                                                <div class="slds-form-element slds-m-left_x-small">
+                                                                    <label>
+                                                                        申請受付
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning:button name="cancel" label="キャンセル" onclick="{!c.triplePopClose}" class="slds-m-right_x-small"/>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

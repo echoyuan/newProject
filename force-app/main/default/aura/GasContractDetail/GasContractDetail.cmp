@@ -1,0 +1,610 @@
+<aura:component implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes" access="global" controller="GasContractDetailController">
+    <aura:attribute name="contractMessage" type="String" default="契約情報取得中..."/>
+    <aura:attribute name="gasAccountResponseDto" type="Object" />
+    <aura:attribute name="gasContractResponseDtoList" type="List" />
+    <aura:attribute name="gasElectricAddResponseDto" type="Object" />
+    <aura:attribute name="gasReceiveHistoryResponseDtoList" type="List" />
+    <!--メータ状態取得-->
+    <aura:attribute name="gasMeterSetResponseDto" type="Object" />
+    <!--ガスメータ一覧取得-->
+    <aura:attribute name="gasMeterSetResponseDtoList" type="List" />
+    <aura:attribute name="existStatus" type="String" />
+    <aura:attribute name="gasPaymentResponseDtoList" type="List" />
+    <aura:attribute name="paymentAccountResponseDto" type="Object" />
+    <aura:attribute name="nox1" type="String" />
+    <aura:attribute name="nox3" type="String" />
+    <aura:attribute name="nox4" type="String" />
+    <aura:attribute name="isGasDetailOpen" type="boolean" />
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <div>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-id-01" aria-describedby="modal-content-id-01" aria-modal="true">
+            <div class="slds-modal__container" style="width: 100%; height: 100%">
+                <header class="slds-modal__header" style="padding-top: 8px;padding-bottom: 8px;">
+                    <lightning:buttonIcon title="Close" alternativeText="Close window." iconName="utility:close" variant="bare" size="large" class="slds-modal__close slds-button--icon-inverse" onclick="{!c.popClose}" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">ガス契約</h2>
+                </header>
+                <!--###### MODAL BOX BODY Part Start From Here ######-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <aura:if isTrue="{! not(empty(v.gasContract))}">
+                        <div class="slds-grid full forcePageBlockSectionRow">
+                            <h3>
+                                <ui:outputText value="{!$Label.c.SYSTEM_ERROR_MESSAGE}" />
+                            </h3>
+                        </div>
+                        <aura:set attribute="else">
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">お客さま情報</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                お客さま番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasAccountResponseDto.cstRegNo}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                店名屋号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasAccountResponseDto.tenNamYagoKj}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                店名屋号(カナ)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasAccountResponseDto.tenNamYagoKn}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                おなまえ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasAccountResponseDto.namKj}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                おなまえ(カナ)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasAccountResponseDto.namKn}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_4-of-4">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-4">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                住所
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_3-of-4">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasAccountResponseDto.jusyo}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                郵便番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasAccountResponseDto.yubinNo}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                電話番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                <ui:outputText value="{!v.gasAccountResponseDto.cstTelNo}" />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                支払方法
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasPaymentResponseDtoList[0].rknShrHohCdDcd}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                ガス料金契約種別
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasContractResponseDtoList[0].gasKySyb}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                警報器リース有無
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.existStatus}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                メータ状態
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasMeterSetResponseDto.gmtStatus}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_12-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-2">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                電力合算
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasElectricAddResponseDto.electricAdd}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">接客履歴</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_6-of-6">
+                                                <div class="slds-form-element slds-m-left_x-small">
+                                                    <table class="slds-table_bordered slds-table_col-bordered">
+                                                        <thead>
+                                                            <tr class="slds-line-height_reset">
+                                                                <th class="slds-text-title_caps" style="width: 10%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">接客年月日</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 6%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">時刻</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 15%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">業務種別</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 12%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">業務内容</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 7%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">月日</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 7%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">時間帯</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 13%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">接客箇所</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 13%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">接客者</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">備考</ul>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <aura:iteration items="{!v.gasReceiveHistoryResponseDtoList}" var="receiveHistoryResponseDto" indexVar="rowIndex">
+                                                                <tr>
+                                                                    <td data-label="接客年月日">{!receiveHistoryResponseDto.skkYmd}</td>
+                                                                    <td data-label="時刻">{!receiveHistoryResponseDto.skkJkk}</td>
+                                                                    <td data-label="業務種別">{!receiveHistoryResponseDto.gymSysikbnCdDcd}</td>
+                                                                    <td data-label="業務内容">{!receiveHistoryResponseDto.gymNyoSybtCdDcd}</td>
+                                                                    <td data-label="月日">{!receiveHistoryResponseDto.sgyoyoteJsYmd}</td>
+                                                                    <td data-label="時間帯">{!receiveHistoryResponseDto.jkt}</td>
+                                                                    <td data-label="接客箇所">{!receiveHistoryResponseDto.sgyoTntksyKj}</td>
+                                                                    <td data-label="接客者">{!receiveHistoryResponseDto.systntnamKj}</td>
+                                                                    <td data-label="備考">{!receiveHistoryResponseDto.tokkiJiko}</td>
+                                                                </tr>
+                                                            </aura:iteration>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">支払情報詳細</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                振替指定日
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasPaymentResponseDtoList[0].transferDate}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                支払者名
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.paymentAccountResponseDto.cstRegNo}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                金融機関名
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasPaymentResponseDtoList[0].kiKinyunmg}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                支店名
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasPaymentResponseDtoList[0].kiSitennmg}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                預金種別
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasPaymentResponseDtoList[0].yokinSybCdDcd}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                口座番号
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasPaymentResponseDtoList[0].cstKozaNo}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_1-of-3">
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                請求サービス
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element slds-m-left_x-small">
+                                                            <label>
+                                                                {!v.gasPaymentResponseDtoList[0].seiqSvcCdDcd}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_11-of-12 slds-border_bottom slds-m-vertical_xx-small">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class=" slds-section slds-is-open">
+                                <h3 class="slds-section__title slds-theme_shade">
+                                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">ガスメータ一覧</span>
+                                </h3>
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__group">
+                                        <div class="slds-form-element__row">
+                                        </div>
+                                        <div class="slds-form-element__row">
+                                            <div class="slds-size_6-of-6">
+                                                <div class="slds-form-element slds-m-left_x-small">
+                                                    <table class="slds-table_bordered slds-table_col-bordered">
+                                                        <thead>
+                                                            <tr class="slds-line-height_reset">
+                                                                <th class="slds-text-title_caps" style="width: 20%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">お客さま番号</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 20%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">ガスメータ社番</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 18%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">棟番－部屋番</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" style="width: 25%;" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">往訪時目標</ul>
+                                                                </th>
+                                                                <th class="slds-text-title_caps" scope="col">
+                                                                    <ul class="slds-has-dividers_top-space thead-th-ul">メータ状態</ul>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <aura:iteration items="{!v.gasMeterSetResponseDtoList}" var="gasMeterSetResponseDto" indexVar="rowIndex">
+                                                                <tr>
+                                                                    <td data-label="お客さま番号">
+                                                                        {!v.gasAccountResponseDto.cstRegNo}
+                                                                    </td>
+                                                                    <td data-label="ガスメータ社番">
+                                                                        {!gasMeterSetResponseDto.syabanNo}
+                                                                    </td>
+                                                                    <td data-label="棟番－部屋番">
+                                                                        {!gasMeterSetResponseDto.heyabanKn}
+                                                                    </td>
+                                                                    <td data-label="往訪時目標">
+                                                                        {!gasMeterSetResponseDto.ohojiMokhyoKj}
+                                                                    </td>
+                                                                    <td data-label="メータ状態">
+                                                                        {!gasMeterSetResponseDto.gmtStatus}
+                                                                    </td>
+                                                                </tr>
+                                                            </aura:iteration>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

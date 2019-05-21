@@ -1,0 +1,17 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="MemoDetailController">   
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="memoInfo" type="String"/>
+    <aura:attribute name="errorFlg" type="boolean" default="false"/>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <aura:if isTrue="{! v.errorFlg }">
+                <h3>
+                    <ui:outputText value="{!$Label.c.SYSTEM_ERROR_MESSAGE}" />
+                </h3>
+                <aura:set attribute="else">
+                    <ui:outputRichText class="slds-text-longform" value="{!v.memoInfo}"/>
+                </aura:set>
+            </aura:if>
+        </div>
+    </article>
+</aura:component>

@@ -1,0 +1,66 @@
+.THIS .gray-backcolor-row
+{
+	background-color:#cccccc;
+}
+
+.THIS .tgcls-hide {
+    display: none;
+}
+
+.THIS .checkbox-position
+{
+	/*position: absolute;
+    margin-top: 13px;
+    margin-left: 120px;
+    z-index: 1;*/
+    position: absolute;
+    margin-top: -3px;
+    margin-left: 36px;
+    z-index: 1;
+}
+.THIS .div-label
+{
+   /*margin-left: 150px;
+   position: absolute;
+   margin-top: 11px;*/
+   margin-left: 50px;
+   position: absolute;
+   margin-top: -5px;
+}
+.THIS .div-button
+{
+   margin-left: 39px;
+}
+.THIS .div-title
+{
+   margin-top: 6px;
+}
+.THIS .default-check-status
+{
+   border-color: rgb(21, 137, 238);
+}
+.THIS .error-margin-left
+{
+   margin-left: 30px;
+}
+.THIS .display-inline-flex
+{
+	display: inline-flex;
+}
+.THIS .yellow-backcolor-row
+{
+	background-color:#FF0;
+}
+.THIS .slds-truncate {
+    white-space: pre-wrap;
+    word-break : break-all;
+}
+.THIS .accordionYellowCss h2 {
+    background-color:#FF0;
+}
+.THIS .textColorError h2 {
+    color:rgb(194, 57, 52);
+}
+.THIS .textColorError .slds-button:hover,.THIS .textColorError .slds-button:focus {
+    color:rgb(194, 57, 52);
+}

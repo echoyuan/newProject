@@ -1,0 +1,7 @@
+<aura:component implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes" extends="c:abstractContractList" access="global" controller="ContractListFromAccountController">
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <!--<aura:handler name="contractListFromAccountEvent" event="c:contractListFromAccountEvent"
+        action="{!c.contractListFromAccountEvent}"/>
+    <aura:registerEvent name="contractListFromAccountEvent" type="c:contractListFromAccountEvent"/>-->
+</aura:component>

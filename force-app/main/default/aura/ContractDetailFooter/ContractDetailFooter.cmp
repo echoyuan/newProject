@@ -1,0 +1,6 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <div>
+        <lightning:button name="cancel" label="キャンセル" onclick="{!c.close}" class="slds-m-right_x-small"/>
+    </div>
+</aura:component>

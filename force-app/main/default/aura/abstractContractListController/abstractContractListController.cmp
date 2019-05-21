@@ -1,0 +1,187 @@
+<aura:component implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes" abstract="true" extensible="true" controller="AbstractContractListController">
+    <aura:attribute name="recordId" type="Id" />
+	<aura:attribute name="contractsList" type="List" />
+    <aura:attribute name="count" type="String" default="0" />
+    <aura:attribute name="lableName" type="String" default="グループ" />
+    <aura:attribute name="errorFlg" type="boolean" default="false"  />
+    <aura:attribute name="isGasDetailOpen" type="boolean" default="false" description="ガス判定用フラグ" />
+    <aura:attribute name="isElcDetailOpen" type="boolean" default="false" description="電気判定用フラグ" />
+    <aura:attribute name="isSpDetailOpen" type="boolean" default="false" description="スぺサポ判定用フラグ" />
+    <aura:attribute name="isTlDetailOpen" type="boolean" default="false" description="トリプル割判定用フラグ" />
+    <aura:attribute name="isKhDetailOpen" type="boolean" default="false" description="警報器リース判定用フラグ" />
+    <aura:attribute name="isOutsideTADetailOpen" type="boolean" default="false" description="域外ガス判定用フラグ" />
+    <aura:attribute name="nox1" type="String" />
+    <aura:attribute name="nox3" type="String" />
+    <aura:attribute name="nox4" type="String" />
+    <aura:attribute name="nox8" type="String" />
+    <aura:attribute name="sa" type="String" />
+    <aura:attribute name="ttBn" type="String" />
+    <aura:attribute name="serviceNo" type="String" />
+    <aura:attribute name="customerNo" type="String" />
+    <aura:attribute name="pNo" type="String" />
+    <aura:attribute name="serviceId" type="String" />
+    <aura:attribute name="viewModel" type="String" default="" />
+    <aura:attribute name="checkModel" type="String" default="" />
+    <aura:attribute name="checkList" type="List" />
+    <aura:attribute name="editBottenFlg" type="boolean" default="false" description="編集ボタン表示用フラグ" />
+    <aura:attribute name="warningFlg" type="boolean" default="false"  />
+    <aura:attribute name="warningMsg" type="String" default=""  />
+    <aura:attribute name="checkBackUpList" type="List" />
+    <aura:attribute name="infoFlg" type="boolean" default="false"  />
+    <aura:attribute name="infoMsg" type="String" default=""  />
+    <article class="slds-card">					
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="display-inline-flex">
+                    <div class="slds-media__body div-title">
+                        <h2>
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="[object Object]">                            
+                                <aura:if isTrue="{! not(empty(v.viewModel))}">
+                                    <span class="slds-text-heading_small">旧名義人契約情報({!v.count})</span>
+                                    <aura:set attribute="else">
+                                        <span class="slds-text-heading_small">契約情報({!v.count})</span>
+                                    </aura:set>
+                                </aura:if>
+                            </a>
+                        </h2>
+                    </div>
+                    <aura:if isTrue="{!v.editBottenFlg}">
+                        <aura:if isTrue="{! not(empty(v.viewModel))}">
+                            <div class="slds-form-element slds-text-align_center div-button" >
+                                <lightning:button label="キャンセル" onclick="{!c.returnToList}" class="{! 'slds-m-right_x-small' + (v.viewModel != 'edit' ? ' tgcls-hide' : '')}"/>
+                                <lightning:button label="保存" onclick="{!c.saveChangeJson}" variant="brand" class="{! 'slds-m-right_x-small' + (v.viewModel != 'edit' ? ' tgcls-hide' : '')}"/>
+                                <lightning:button label="名義変更対象選択" onclick="{!c.changeStatus}" variant="brand" class="{! 'slds-m-right_x-small' + (v.viewModel != 'view' ? ' tgcls-hide' : '')}"/>
+                            </div>
+                        </aura:if> 
+                    </aura:if> 
+                </div>
+            </header>
+        </div>
+        <aura:if isTrue="{!v.errorFlg}">
+            <div class="slds-text-color--error error-margin-left">
+                <ul class="errorsList">
+                    <li>{!$Label.c.SYSTEM_ERROR_MESSAGE}</li>
+                </ul>
+            </div>
+        </aura:if>							
+        <aura:if isTrue="{!v.infoFlg}">
+            <div class="slds-text-color--error error-margin-left">
+                <ul class="errorsList">
+                    <li>
+                        {!v.infoMsg}
+					</li>
+                </ul>
+            </div>
+        </aura:if>	
+        <aura:if isTrue="{!v.warningFlg}">
+            <div class="slds-text-color--error error-margin-left">
+                <ul class="errorsList">
+                    <li>
+                        {!v.warningMsg}
+					</li>
+                </ul>
+            </div>
+        </aura:if>
+        <div class=" slds-section slds-is-open ">										
+            <aura:iteration items="{!v.contractsList}" var="contractsList" indexVar="conIndex">
+                <div class=" slds-section slds-is-open ">
+                    <aura:if isTrue="{! not(empty(v.viewModel))}">
+                        <div class="checkbox-position default-check-status"> 
+                            <input name="{!conIndex}" type="checkbox" id="{!'cbx' + conIndex}" text="{!conIndex}" onclick="{!c.onCheck}" label="" disabled="{!(v.checkModel != 'edit' ? 'true' : 'false')}" />
+                         </div>
+                        <span class='div-label'>名義変更対象</span>
+                    </aura:if> 
+                    <lightning:accordion allowMultipleSectionsOpen="true" onsectiontoggle="{! c.handleSectionToggle }" activeSectionName="A"> 
+                        <lightning:accordionSection name="A" label="{!v.lableName+((conIndex)+1)}">					
+                            <div class="slds-card__body">
+                                <table class="slds-table slds-table_fixed-layout slds-table_bordered slds-no-row-hover slds-table_cell-buffer">
+                                    <thead>
+                                        <tr class="slds-text-title_caps">
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="商材">商材</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="契約者キー">契約者キー</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="契約状態">契約状態</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="契約開始日">契約開始日</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="契約終了日">契約終了日</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="契約メニュー">契約メニュー</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!contractsList}" var="contract" indexVar="rowIndex">
+                                            <tr class="{! 'slds-hint-parent' + ((contract.status=='解約済' || contract.status=='閉栓中') ? ' gray-backcolor-row':'')}" >
+                                                <td>
+                                                    <div class="slds-truncate" title="{!contract.categoryName}">{!contract.categoryName}</div>
+                                                </td>
+                                                <td>
+                                                    <aura:if isTrue="{!(contract.serviceType=='0011' || contract.serviceType=='0061' || contract.serviceType=='008' || contract.serviceType=='003')}">
+                                                        {!contract.userKey}
+                                                        <aura:set attribute="else">
+                                                            <div class="slds-truncate" title="{!contract.userKey}">
+                                                                <a href="javascript:void(0);" onclick="{!c.openModel}" data-service-type="{!contract.serviceType}" data-service-key="{!conIndex + '' + rowIndex}">{!contract.userKey}</a>
+                                                                <span class = "tgcls-hide" id="{! 'nox1' + conIndex + '' + rowIndex}">{!contract.nox1}</span>
+                                                                <span class = "tgcls-hide" id="{! 'nox3' + conIndex + '' + rowIndex}">{!contract.nox3}</span>
+                                                                <span class = "tgcls-hide" id="{! 'nox4' + conIndex + '' + rowIndex}">{!contract.nox4}</span>
+                                                                <span class = "tgcls-hide" id="{! 'nox8' + conIndex + '' + rowIndex}">{!contract.nox8}</span>
+                                                                <span class = "tgcls-hide" id="{! 'sa' + conIndex + '' + rowIndex}">{!contract.sa}</span>
+                                                                <span class = "tgcls-hide" id="{! 'ttBn' + conIndex + '' + rowIndex}">{!contract.ttBn}</span>
+                                                                <span class = "tgcls-hide" id="{! 'serviceNo' + conIndex + '' + rowIndex}">{!contract.serviceNo}</span>
+                                                                <span class = "tgcls-hide" id="{! 'customerNo' + conIndex + '' + rowIndex}">{!contract.customerNo}</span>
+                                                                <span class = "tgcls-hide" id="{! 'pNo' + conIndex + '' + rowIndex}">{!contract.pNo}</span>
+                                                                <span class = "tgcls-hide" id="{! 'serviceId' + conIndex + '' + rowIndex}">{!contract.serviceId}</span>
+                                                            </div>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!contract.status}"><span id="{! 'status' + conIndex + '' + rowIndex}">{!contract.status}</span></div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!contract.startDate}"><span id="{! 'startDate' + conIndex + '' + rowIndex}">{!contract.startDate}</span></div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!contract.endDate}"><span id="{! 'endDate' + conIndex + '' + rowIndex}">{!contract.endDate}</span></div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-truncate" title="{!contract.menu}"><span id="{! 'menu' + conIndex + '' + rowIndex}">{!contract.menu}</span></div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </lightning:accordionSection>
+                    </lightning:accordion>				
+                </div>	
+            </aura:iteration> 
+        </div>
+    </article>
+    <aura:if isTrue="{!v.isGasDetailOpen}">
+<!--       <c:gasContractDetail nox1="{!v.nox1}" nox3="{!v.nox3}" nox4="{!v.nox4}" isGasDetailOpen="{!v.isGasDetailOpen}"/>-->
+    </aura:if>
+    <aura:if isTrue="{!v.isElcDetailOpen}">
+         <!--<c:electricityContractDetail sa="{!v.sa}" ttBn="{!v.ttBn}" nox3="{!v.nox3}" nox8="{!v.nox8}" isElcDetailOpen="{!v.isElcDetailOpen}"/>-->
+    </aura:if>
+    <aura:if isTrue="{!v.isSpDetailOpen}">
+         <!--<c:specialContractDetail customerNo="{!v.customerNo}" serviceNo="{!v.serviceNo}" isSpDetailOpen="{!v.isSpDetailOpen}"/>-->
+    </aura:if>
+    <aura:if isTrue="{!v.isOutsideTADetailOpen}">
+         <!--<c:outsideTheAreaContractDetail nox3="{!v.nox3}" isOutsideTADetailOpen="{!v.isOutsideTADetailOpen}"/>-->
+    </aura:if>
+    <aura:if isTrue="{!v.isTlDetailOpen}">
+         <!--<c:tripleContractDetail pNo="{!v.pNo}" serviceId="{!v.serviceId}" isTlDetailOpen="{!v.isTlDetailOpen}"/>-->
+    </aura:if>
+    <aura:if isTrue="{!v.isKhDetailOpen}">
+         <!--<c:alarmContractDetail nox4="{!v.nox4}" isKhDetailOpen="{!v.isKhDetailOpen}"/>-->
+    </aura:if>
+</aura:component>

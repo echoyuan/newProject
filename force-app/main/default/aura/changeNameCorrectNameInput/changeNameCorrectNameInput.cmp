@@ -1,0 +1,60 @@
+<aura:component implements ="force:appHostable,lightning:actionOverride,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" controller="ChangeNameCorrectNameInputController">
+    <aura:attribute name="options" type="List"/>
+    <aura:attribute name="value" type="String" default=""/>
+    <aura:attribute name="meigiteiseiRecTypeId" type="String" default=""/>
+    <aura:attribute name="meigihenkouRecTypeId" type="String" default=""/>
+    <aura:attribute name="recordInfo" type="Object"/>
+    <aura:attribute name="isOpen" type="boolean" default="true"/>
+    <aura:attribute name="errorMessage" type="String" default=""/>
+    <aura:attribute name="permissionMessage" type="String" default=""/>
+    <aura:attribute name="popFlg" type="boolean" default="false" description="ポップアップ判定用フラグ" />
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <aura:if isTrue="{!v.isOpen}">
+        <div>
+            <header class="slds-modal__header header-view">
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">お客さま情報更新</h2>
+            </header>
+            <!--###### MODAL BOX BODY Part Start From Here ######-->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <aura:if isTrue="{! not(empty(v.permissionMessage))}">
+                    <div class="slds-text-color--error slds-modal_medium div-msg-width">
+                        <h2 class="h2-msg-padding">
+                            <ui:outputText value="{!v.permissionMessage}" />
+                        </h2>
+                    </div>
+                    <div class="slds-form-element__row row-height-100">
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-section slds-is-open">
+                            <div class="slds-form slds-form_compound">
+                                <div class="slds-form-element__group">
+                                    <div class="slds-form-element__row row-height-10">
+                                    </div>
+                                    <div><b>お客さま情報更新事由</b></div>
+                                    <ui:inputRadio name="radioGroupRequired" change="{!c.onGroup}" text="option1"/>名義訂正
+                                    <div>・ふりがな訂正、漢字訂正、お客さま情報訂正(名義以外)</div>
+                                    <ui:inputRadio name="radioGroupRequired" change="{!c.onGroup}" text="option2"/>名義変更
+                                    <div>・債務の承継</div>
+                                </div>
+                            </div>
+                            <div class="slds-text-color--error slds-p-top_large">
+                                {! v.errorMessage }
+                            </div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+            <div class="slds-text-align_right slds-progress-bar slds-progress-bar_x-small " aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" role="progressbar"></div>
+            <aura:if isTrue="{! empty(v.permissionMessage)}">
+                <div class="slds-text-align_right slds-p-top_x-small">
+                    <lightning:button name="cancel" label="次へ" onclick="{!c.validationCheck}" class="slds-m-right_x-small slds-button slds-button_brand"/>
+                </div>
+            </aura:if>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.popFlg}">
+        <div class="slds-modal__content slds-p-around_medium slds-text-align_center" id="modal-content-id-1">
+                {!$Label.c.SYSTEM_ERROR_MESSAGE}
+        </div>
+    </aura:if>
+</aura:component>

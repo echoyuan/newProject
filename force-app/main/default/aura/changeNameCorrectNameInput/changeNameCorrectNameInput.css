@@ -1,0 +1,25 @@
+.THIS .header-view
+{
+	padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.THIS .div-msg-width
+{
+	width: 86%;
+}
+
+.THIS .row-height-100
+{
+	height:100px;
+}
+
+.THIS .row-height-10
+{
+	height:10px;
+}
+
+.THIS .h2-msg-padding
+{
+	padding-left: 80px;
+}
