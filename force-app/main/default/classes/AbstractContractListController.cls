@@ -8,6 +8,7 @@ public with sharing class AbstractContractListController {
     @AuraEnabled
     public static CaseContractResponseDto save(String id, List<List<CommonKeySearchResponseDto>> contractsList, List<String> checkList) {
         try{
+            //テスト
             String strRst = changeObjectToJsonForSave(contractsList, checkList);
             case caseTemp = getCaseInfo(id);
             if (caseTemp == null) {
